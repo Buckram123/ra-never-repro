@@ -1,5 +1,8 @@
+#![allow(unused)]
+
 use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::Empty;
+#[cfg(feature = "interface")]
 use cw_orch::interface;
 
 mod impl_into_contract {
@@ -25,7 +28,7 @@ mod impl_into_contract {
         Bar { x: u32 },
     }
 
-    #[interface(Empty, Empty, QueryMsg, Empty)]
+    #[cfg_attr(feature = "interface", interface(Empty, Empty, QueryMsg, Empty))]
     pub struct MockContract;
 }
 
@@ -42,14 +45,13 @@ mod contract {
         Bar { x: u32 },
     }
 
-    #[interface(Empty, Empty, QueryMsg, Empty)]
+    #[cfg_attr(feature = "interface", interface(Empty, Empty, QueryMsg, Empty))]
     pub struct MockContract;
 }
 
 #[cfg(test)]
+#[cfg(feature = "interface")]
 mod test {
-    #![allow(unused)]
-
     use cw_orch::mock::Mock;
 
     fn impl_into_contract() -> Result<(), cw_orch::prelude::CwOrchError> {
